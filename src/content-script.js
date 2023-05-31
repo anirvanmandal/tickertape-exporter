@@ -71,8 +71,30 @@ let addObserver = () => {
     observer.observe(tableContainer, { subtree: false, childList: true });
 }
 
+let addAppObserver = () => {
+    const observer = new MutationObserver(function(mutations_list) {
+        mutations_list.forEach(function(mutation) {
+            mutation.addedNodes.forEach(function(added_node) {
+                if (added_node.classList.contains('screener-container')) {
+                    replaceExportButton()
+                    addObserver()
+                }
+            });
+        });
+    });
+
+    let appContainer = document.getElementById("app-container")
+    if(!appContainer) {
+        window.setTimeout(addAppObserver, 500);
+        return;
+    }
+
+    observer.observe(appContainer, { subtree: false, childList: true });
+}
+
 let main = () => {
     replaceExportButton()
+    addAppObserver()
     addObserver()
 }
     
