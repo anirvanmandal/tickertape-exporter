@@ -17,26 +17,26 @@ let replaceExportButton = () => {
 const exportVisibleTable = () => {
     document.querySelectorAll(".icon-sort").forEach(el => el.remove())
     let table = document.getElementById('screener-table')
-    let headers = table.getElementsByClassName('header-col')
-    let columns = table.getElementsByClassName('data-col')
+    let headers = table.getElementsByTagName('th')
+    let rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
 
     let csvContent = "data:text/csv;charset=utf-8,"
 
     let headerRow = []
     headerRow.push('S.No.')
 
-    for (let i = 1; i < headers.length; i++) {
+    for (let i = 1; i < headers.length - 1; i++) {
         headerRow.push(headers[i].innerText)
     }
 
     csvContent += headerRow.join(',') + '\r\n'
-    rowsCount = columns[0].getElementsByClassName('screener-cell').length
+    let rowsCount = rows.length
 
     for (let i = 0; i < rowsCount; i++) {
         let row = []
-        
-        for (let j = 0; j < headers.length; j++) {
-            row.push(`"${columns[j].getElementsByClassName('screener-cell')[i].innerText}"`)
+        for (let j = 0; j < headerRow.length; j++) {
+            console.log(rows[i].children[j].innerText)
+            row.push(`"${rows[i].children[j].innerText}"`)
         }
 
         csvContent += row.join(',') + '\r\n'
